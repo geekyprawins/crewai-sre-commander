@@ -1,0 +1,73 @@
+[
+  {
+    "timestamp": "2024-12-22T10:30:00Z",
+    "service": "user-service",
+    "metrics": {
+      "memory_usage_bytes": 2030043136,
+      "memory_limit_bytes": 2147483648,
+      "cpu_usage_percent": 78.5,
+      "heap_used_mb": 1890,
+      "heap_max_mb": 2048,
+      "gc_count": 45,
+      "gc_time_total_ms": 12500,
+      "requests_per_second": 850,
+      "response_time_p50_ms": 120,
+      "response_time_p95_ms": 450,
+      "response_time_p99_ms": 1200,
+      "error_rate_percent": 2.1
+    }
+  },
+  {
+    "timestamp": "2024-12-22T10:30:00Z",
+    "service": "database",
+    "metrics": {
+      "active_connections": 95,
+      "max_connections": 100,
+      "connection_wait_time_ms": 2500,
+      "query_duration_p50_ms": 45,
+      "query_duration_p95_ms": 180,
+      "query_duration_p99_ms": 500,
+      "deadlocks_per_minute": 0,
+      "slow_queries_per_minute": 12,
+      "cpu_usage_percent": 65.2,
+      "memory_usage_percent": 72.8,
+      "disk_io_read_mb_per_sec": 25.4,
+      "disk_io_write_mb_per_sec": 18.7
+    }
+  },
+  {
+    "timestamp": "2024-12-22T10:30:00Z",
+    "service": "api-gateway",
+    "metrics": {
+      "requests_per_second": 1250,
+      "response_time_p50_ms": 85,
+      "response_time_p95_ms": 320,
+      "response_time_p99_ms": 800,
+      "error_rate_percent": 15.3,
+      "status_2xx_percent": 84.7,
+      "status_4xx_percent": 8.2,
+      "status_5xx_percent": 7.1,
+      "upstream_response_time_ms": 150,
+      "cpu_usage_percent": 45.8,
+      "memory_usage_percent": 38.2
+    }
+  },
+  {
+    "timestamp": "2024-12-22T10:25:00Z",
+    "service": "user-service",
+    "metrics": {
+      "memory_usage_bytes": 1610612736,
+      "memory_limit_bytes": 2147483648,
+      "cpu_usage_percent": 45.2,
+      "heap_used_mb": 1200,
+      "heap_max_mb": 2048,
+      "gc_count": 38,
+      "gc_time_total_ms": 8200,
+      "requests_per_second": 720,
+      "response_time_p50_ms": 95,
+      "response_time_p95_ms": 280,
+      "response_time_p99_ms": 650,
+      "error_rate_percent": 0.8
+    }
+  }
+]

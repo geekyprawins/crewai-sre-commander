@@ -1,0 +1,52 @@
+[
+  {
+    "id": "alert-001",
+    "timestamp": "2024-12-22T10:30:00Z",
+    "severity": "critical",
+    "service": "user-service",
+    "message": "Memory usage exceeded 90% threshold",
+    "labels": {
+      "environment": "production",
+      "region": "us-west-2",
+      "instance": "user-service-pod-7f8b9c"
+    },
+    "metrics": {
+      "memory_usage_percent": 94.2,
+      "cpu_usage_percent": 78.5
+    }
+  },
+  {
+    "id": "alert-002",
+    "timestamp": "2024-12-22T10:32:15Z",
+    "severity": "warning",
+    "service": "database",
+    "message": "Connection pool exhaustion detected",
+    "labels": {
+      "environment": "production",
+      "region": "us-west-2",
+      "database": "postgres-primary"
+    },
+    "metrics": {
+      "active_connections": 95,
+      "max_connections": 100,
+      "connection_wait_time_ms": 2500
+    }
+  },
+  {
+    "id": "alert-003",
+    "timestamp": "2024-12-22T10:35:00Z",
+    "severity": "critical",
+    "service": "api-gateway",
+    "message": "High error rate detected: 15% of requests failing",
+    "labels": {
+      "environment": "production",
+      "region": "us-west-2",
+      "gateway": "nginx-ingress"
+    },
+    "metrics": {
+      "error_rate_percent": 15.3,
+      "requests_per_second": 1250,
+      "response_time_p95_ms": 3200
+    }
+  }
+]

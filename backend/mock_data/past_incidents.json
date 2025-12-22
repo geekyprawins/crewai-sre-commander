@@ -1,0 +1,80 @@
+[
+  {
+    "id": "INC-2024-001",
+    "timestamp": "2024-12-15T14:30:00Z",
+    "title": "Memory leak in user-service after v2.1.2 deployment",
+    "severity": "P1",
+    "duration_minutes": 45,
+    "services_affected": ["user-service", "api-gateway"],
+    "root_cause": "Memory leak introduced in user session caching logic",
+    "symptoms": [
+      "Gradual memory increase over 2 hours",
+      "OutOfMemoryError exceptions",
+      "Service restarts every 30 minutes",
+      "Increased response times"
+    ],
+    "resolution": [
+      "Rolled back to v2.1.1",
+      "Fixed memory leak in session cache",
+      "Deployed hotfix v2.1.3",
+      "Added memory monitoring alerts"
+    ],
+    "lessons_learned": [
+      "Need better memory profiling in staging",
+      "Implement gradual rollout strategy",
+      "Add heap dump collection on OOM"
+    ]
+  },
+  {
+    "id": "INC-2024-002",
+    "timestamp": "2024-12-10T09:15:00Z",
+    "title": "Database connection pool exhaustion",
+    "severity": "P0",
+    "duration_minutes": 25,
+    "services_affected": ["database", "user-service", "order-service"],
+    "root_cause": "Sudden traffic spike combined with long-running queries",
+    "symptoms": [
+      "Connection timeouts",
+      "503 errors from API gateway",
+      "Database connection pool at 100%",
+      "Query queue backing up"
+    ],
+    "resolution": [
+      "Killed long-running queries",
+      "Increased connection pool size temporarily",
+      "Optimized slow queries",
+      "Added connection pool monitoring"
+    ],
+    "lessons_learned": [
+      "Need query timeout enforcement",
+      "Implement connection pool auto-scaling",
+      "Better query performance monitoring"
+    ]
+  },
+  {
+    "id": "INC-2024-003",
+    "timestamp": "2024-12-05T16:45:00Z",
+    "title": "API Gateway SSL certificate expiration",
+    "severity": "P0",
+    "duration_minutes": 15,
+    "services_affected": ["api-gateway", "all-external-traffic"],
+    "root_cause": "SSL certificate expired without renewal notification",
+    "symptoms": [
+      "SSL handshake failures",
+      "Browser certificate warnings",
+      "Complete external traffic loss",
+      "Health check failures"
+    ],
+    "resolution": [
+      "Emergency certificate renewal",
+      "Updated certificate in load balancer",
+      "Verified SSL chain validity",
+      "Restored traffic flow"
+    ],
+    "lessons_learned": [
+      "Implement automated certificate renewal",
+      "Add certificate expiration monitoring",
+      "Create certificate management runbook"
+    ]
+  }
+]
