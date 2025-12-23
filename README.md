@@ -40,68 +40,32 @@ The system employs 7 specialized AI agents that work sequentially:
 - **No Cloud Dependencies**: Zero reliance on OpenAI, Anthropic, or other cloud LLMs
 - **Deterministic Analysis**: Low temperature settings for consistent results
 
-## 🚀 Setup Instructions
+## 🚀 Quick Start
+
+**For detailed setup and troubleshooting, see [SETUP_GUIDE.md](SETUP_GUIDE.md)**
 
 ### Prerequisites
 
-1. **Install Ollama**
-   ```bash
-   # macOS
-   brew install ollama
-   
-   # Linux
-   curl -fsSL https://ollama.ai/install.sh | sh
-   
-   # Windows - Download from https://ollama.ai/download
-   ```
+1. **Python 3.12+** and **Node.js 18+**
+2. **Optional**: Ollama for real LLM (system uses mock LLM as fallback)
 
-2. **Pull the LLM Model**
-   ```bash
-   ollama pull llama3
-   # Alternative models: mistral, orca-mini
-   ```
+### Fast Setup
 
-3. **Start Ollama Service**
-   ```bash
-   ollama serve
-   # Runs on http://localhost:11434
-   ```
+**Terminal 1 - Backend:**
+```bash
+cd backend
+pip install -r requirements.txt
+python main.py  # Runs on http://localhost:8080
+```
 
-### Backend Setup
+**Terminal 2 - Frontend:**
+```bash
+cd frontend
+npm install
+npm run dev  # Runs on http://localhost:3000
+```
 
-1. **Navigate to Backend Directory**
-   ```bash
-   cd sre-incident-commander/backend
-   ```
-
-2. **Install Python Dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. **Start the FastAPI Server**
-   ```bash
-   python main.py
-   # Runs on http://localhost:8080
-   ```
-
-### Frontend Setup
-
-1. **Navigate to Frontend Directory**
-   ```bash
-   cd sre-incident-commander/frontend
-   ```
-
-2. **Install Node Dependencies**
-   ```bash
-   npm install
-   ```
-
-3. **Start the Development Server**
-   ```bash
-   npm run dev
-   # Runs on http://localhost:3000
-   ```
+Then open http://localhost:3000 in your browser.
 
 ## 🎮 Demo Walkthrough
 
@@ -114,7 +78,7 @@ The system employs 7 specialized AI agents that work sequentially:
 2. **Run Sample Analysis**
    - Click "Analyze Sample Incident" button
    - This demonstrates a memory leak scenario with realistic data
-   - Watch the loading screen show each agent's progress
+   - Watch the loading screen (typically 30-120 seconds)
 
 3. **Review Results**
    - **Severity Badge**: Shows P1-High priority
@@ -126,7 +90,7 @@ The system employs 7 specialized AI agents that work sequentially:
 
 ### Custom Incident Analysis
 
-1. **Load Sample Data**
+```1. **Load Sample Data**
    - Click "Load Sample Data" in the incident form
    - Modify the JSON data as needed
 

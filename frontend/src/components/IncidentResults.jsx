@@ -17,6 +17,26 @@ const ensureArray = (value) => {
   return [value]
 }
 
+// Helper function to safely render any value
+const renderValue = (value) => {
+  if (value === null || value === undefined) return 'N/A'
+  if (typeof value === 'string') return value
+  if (typeof value === 'number' || typeof value === 'boolean') return String(value)
+  if (typeof value === 'object') {
+    // If it's an object or array, convert to string representation
+    if (Array.isArray(value)) {
+      return value.map(v => renderValue(v)).join(', ')
+    }
+    // For objects, try to display meaningfully
+    try {
+      return JSON.stringify(value, null, 2)
+    } catch {
+      return String(value)
+    }
+  }
+  return String(value)
+}
+
 // Helper function to safely get nested values
 const safeGet = (obj, path, defaultValue = null) => {
   const result = path.split('.').reduce((current, prop) => current?.[prop], obj)
@@ -75,7 +95,7 @@ const IncidentResults = ({ result, onClear }) => {
             <div className="space-y-1">
               {ensureArray(summary?.affected_services || triage?.affected_services).map((service, index) => (
                 <span key={index} className="inline-block bg-red-100 text-red-800 px-2 py-1 rounded text-sm mr-2">
-                  {service}
+                  {renderValue(service)}
                 </span>
               ))}
             </div>
@@ -94,7 +114,7 @@ const IncidentResults = ({ result, onClear }) => {
           <div>
             <h4 className="font-medium text-gray-700 mb-2">Primary Root Cause</h4>
             <p className="text-gray-900 bg-yellow-50 p-3 rounded border-l-4 border-yellow-400">
-              {root_cause?.primary_cause || summary?.root_cause}
+              {renderValue(root_cause?.primary_cause) || renderValue(summary?.root_cause)}
             </p>
           </div>
           
@@ -103,7 +123,7 @@ const IncidentResults = ({ result, onClear }) => {
               <h4 className="font-medium text-gray-700 mb-2">Supporting Evidence</h4>
               <ul className="list-disc list-inside space-y-1 text-gray-600">
                 {ensureArray(root_cause?.supporting_evidence).map((evidence, index) => (
-                  <li key={index}>{evidence}</li>
+                  <li key={index}>{renderValue(evidence)}</li>
                 ))}
               </ul>
             </div>
@@ -133,7 +153,7 @@ const IncidentResults = ({ result, onClear }) => {
                     <div className="space-y-1">
                       {errors.map((error, index) => (
                         <div key={index} className="bg-red-50 text-red-800 p-2 rounded text-sm font-mono">
-                          {error}
+                          {renderValue(error)}
                         </div>
                       ))}
                     </div>
@@ -149,13 +169,13 @@ const IncidentResults = ({ result, onClear }) => {
                     <div className="space-y-2">
                       {timeline.map((event, index) => (
                         <div key={index} className="flex items-center space-x-3 text-sm">
-                          <span className="text-gray-500 font-mono">{event?.timestamp || 'N/A'}</span>
+                          <span className="text-gray-500 font-mono">{renderValue(event?.timestamp) || 'N/A'}</span>
                           <span className={`px-2 py-1 rounded text-xs ${
                             event?.severity === 'ERROR' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'
                           }`}>
-                            {event?.severity || 'INFO'}
+                            {renderValue(event?.severity) || 'INFO'}
                           </span>
-                          <span className="text-gray-700">{event?.event || 'Unknown'}</span>
+                          <span className="text-gray-700">{renderValue(event?.event) || 'Unknown'}</span>
                         </div>
                       ))}
                     </div>
@@ -180,15 +200,15 @@ const IncidentResults = ({ result, onClear }) => {
                       {breaches.map((breach, index) => (
                         <div key={index} className="bg-red-50 p-3 rounded">
                           <div className="flex justify-between items-center">
-                            <span className="font-medium text-red-800">{breach?.metric || 'Unknown Metric'}</span>
+                            <span className="font-medium text-red-800">{renderValue(breach?.metric) || 'Unknown Metric'}</span>
                             <span className={`px-2 py-1 rounded text-xs ${
                               breach?.severity === 'Critical' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'
                             }`}>
-                              {breach?.severity || 'Unknown'}
+                              {renderValue(breach?.severity) || 'Unknown'}
                             </span>
                           </div>
                           <div className="text-sm text-red-700 mt-1">
-                            Current: {breach?.value || 'N/A'} | Threshold: {breach?.threshold || 'N/A'}
+                            Current: {renderValue(breach?.value) || 'N/A'} | Threshold: {renderValue(breach?.threshold) || 'N/A'}
                           </div>
                         </div>
                       ))}
@@ -204,7 +224,7 @@ const IncidentResults = ({ result, onClear }) => {
                     <h4 className="font-medium text-gray-700 mb-2">Resource Constraints</h4>
                     <ul className="list-disc list-inside space-y-1 text-gray-600">
                       {constraints.map((constraint, index) => (
-                        <li key={index}>{constraint}</li>
+                        <li key={index}>{renderValue(constraint)}</li>
                       ))}
                     </ul>
                   </div>
@@ -230,14 +250,14 @@ const IncidentResults = ({ result, onClear }) => {
                     {immediateActions.map((action, index) => (
                       <div key={index} className="border-l-4 border-red-400 bg-red-50 p-3">
                         <div className="flex justify-between items-start mb-1">
-                          <span className="font-medium text-red-800">{action?.action || 'Action'}</span>
+                          <span className="font-medium text-red-800">{renderValue(action?.action) || 'Action'}</span>
                           <span className={`px-2 py-1 rounded text-xs ${
                             action?.priority === 'High' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'
                           }`}>
-                            {action?.priority || 'Medium'}
+                            {renderValue(action?.priority) || 'Medium'}
                           </span>
                         </div>
-                        <div className="text-sm text-red-700">ETA: {action?.estimated_time || 'TBD'}</div>
+                        <div className="text-sm text-red-700">ETA: {renderValue(action?.estimated_time) || 'TBD'}</div>
                       </div>
                     ))}
                   </div>
@@ -255,14 +275,14 @@ const IncidentResults = ({ result, onClear }) => {
                     {longTermActions.map((action, index) => (
                       <div key={index} className="border-l-4 border-blue-400 bg-blue-50 p-3">
                         <div className="flex justify-between items-start mb-1">
-                          <span className="font-medium text-blue-800">{action?.action || 'Action'}</span>
+                          <span className="font-medium text-blue-800">{renderValue(action?.action) || 'Action'}</span>
                           <span className={`px-2 py-1 rounded text-xs ${
                             action?.priority === 'High' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800'
                           }`}>
-                            {action?.priority || 'Medium'}
+                            {renderValue(action?.priority) || 'Medium'}
                           </span>
                         </div>
-                        <div className="text-sm text-blue-700">Effort: {action?.estimated_effort || 'TBD'}</div>
+                        <div className="text-sm text-blue-700">Effort: {renderValue(action?.estimated_effort) || 'TBD'}</div>
                       </div>
                     ))}
                   </div>
@@ -279,27 +299,27 @@ const IncidentResults = ({ result, onClear }) => {
           <h3 className="text-lg font-semibold text-gray-900 mb-4">Post-Incident Report</h3>
           <div className="space-y-4">
             {(() => {
-              const lessonsLearned = ensureArray(post_incident_report?.lessons_learned)
-              return lessonsLearned.length > 0 && (
+              const keyTakeaways = ensureArray(post_incident_report?.key_takeaways)
+              return keyTakeaways.length > 0 && (
                 <div>
-                  <h4 className="font-medium text-gray-700 mb-2">Lessons Learned</h4>
+                  <h4 className="font-medium text-gray-700 mb-2">Key Takeaways</h4>
                   <ul className="list-disc list-inside space-y-1 text-gray-600">
-                    {lessonsLearned.map((lesson, index) => (
-                      <li key={index}>{lesson}</li>
+                    {keyTakeaways.map((item, index) => (
+                      <li key={index}>{renderValue(item)}</li>
                     ))}
                   </ul>
                 </div>
               )
             })()}
-            
+
             {(() => {
-              const preventiveMeasures = ensureArray(post_incident_report?.preventive_measures)
-              return preventiveMeasures.length > 0 && (
+              const bestPractices = ensureArray(post_incident_report?.best_practices)
+              return bestPractices.length > 0 && (
                 <div>
-                  <h4 className="font-medium text-gray-700 mb-2">Preventive Measures</h4>
+                  <h4 className="font-medium text-gray-700 mb-2">Best Practices</h4>
                   <ul className="list-disc list-inside space-y-1 text-gray-600">
-                    {preventiveMeasures.map((measure, index) => (
-                      <li key={index}>{measure}</li>
+                    {bestPractices.map((item, index) => (
+                      <li key={index}>{renderValue(item)}</li>
                     ))}
                   </ul>
                 </div>
