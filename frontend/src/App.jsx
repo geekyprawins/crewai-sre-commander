@@ -5,7 +5,7 @@ import IncidentResults from './components/IncidentResults'
 import Header from './components/Header'
 import LoadingSpinner from './components/LoadingSpinner'
 
-const API_BASE_URL = 'https://work-1-sfkangrnyhsxayqz.prod-runtime.all-hands.dev'
+const API_BASE_URL = 'http://localhost:8080'
 
 function App() {
   const [analysisResult, setAnalysisResult] = useState(null)
@@ -22,10 +22,15 @@ function App() {
         headers: {
           'Content-Type': 'application/json',
         },
-        timeout: 120000, // 2 minute timeout for LLM processing
+        timeout: 240000, // 2 minute timeout for LLM processing
       })
 
-      setAnalysisResult(response.data.analysis)
+      console.log('Full response:', response.data)
+      const analysisData = response.data.analysis
+      if (!analysisData) {
+        throw new Error('No analysis data in response')
+      }
+      setAnalysisResult(analysisData)
     } catch (err) {
       console.error('Analysis error:', err)
       setError(
@@ -51,7 +56,12 @@ function App() {
         timeout: 120000,
       })
 
-      setAnalysisResult(response.data.analysis)
+      console.log('Full sample response:', response.data)
+      const analysisData = response.data.analysis
+      if (!analysisData) {
+        throw new Error('No analysis data in response')
+      }
+      setAnalysisResult(analysisData)
     } catch (err) {
       console.error('Sample analysis error:', err)
       setError(

@@ -82,7 +82,7 @@ The system employs 7 specialized AI agents that work sequentially:
 3. **Start the FastAPI Server**
    ```bash
    python main.py
-   # Runs on http://localhost:12000
+   # Runs on http://localhost:8080
    ```
 
 ### Frontend Setup
@@ -100,7 +100,7 @@ The system employs 7 specialized AI agents that work sequentially:
 3. **Start the Development Server**
    ```bash
    npm run dev
-   # Runs on http://localhost:12001
+   # Runs on http://localhost:3000
    ```
 
 ## 🎮 Demo Walkthrough
@@ -108,7 +108,7 @@ The system employs 7 specialized AI agents that work sequentially:
 ### Quick Demo with Sample Data
 
 1. **Access the Application**
-   - Open http://localhost:12001 in your browser
+   - Open http://localhost:3000 in your browser
    - You'll see the SRE Incident Commander dashboard
 
 2. **Run Sample Analysis**
@@ -291,7 +291,7 @@ POST /analyze-sample
 2. **Model Not Found**
    ```bash
    # Pull the required model
-   ollama pull llama3
+   ollama pull llama3.2
    ```
 
 3. **Backend Import Errors**
@@ -313,7 +313,7 @@ POST /analyze-sample
 - **Slack/Teams Integration**: Automated incident notifications
 - **Custom Agent Training**: Fine-tune agents for specific environments
 - **Historical Incident Database**: Persistent storage for pattern learning
-- **Multi-Model Support**: Support for different Ollama models
+- **Multi-Model Support**: Support for different Ollama/OpenAI models
 - **Advanced Visualizations**: Interactive timeline and dependency graphs
 
 ---
